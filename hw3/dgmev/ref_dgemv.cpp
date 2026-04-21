@@ -4,7 +4,7 @@
 void dgemv(double a, const std::vector<std::vector<double>> &A, const std::vector<double> &x,
             double b, std::vector<double> &y) {
 
-    if (A.size() != x.size()) {
+    if (A[0].size() != x.size()) {
         throw std::invalid_argument("Matrix A must have the same number of rows as elements in vector x.");
     }
 
