@@ -22,8 +22,6 @@ int main() {
     std::mt19937 gen(0);
     std::uniform_real_distribution<double> dist(1.0, 10.0);
 
-    //TODO: Methodize?
-
     std::ofstream outFile("hw3_results.txt");
 
     // Level 1 BLAS - DAXPY
@@ -64,43 +62,85 @@ int main() {
         }
     }
 
-    // // Level 2 BLAS - DGEMV
-    // std::cout << "Level 2 BLAS - DGEMV \n";
-    // for (int i = 2; i <= 512; i++) {
+    // Level 2 BLAS - DGEMV
+    std::cout << "Level 2 BLAS - DGEMV \n";
+    for (int n = 2; n <= 512; n++) {
 
-    //     for (int t = 0; t < ntrials; t++) {
-    //         start = std::chrono::high_resolution_clock::now();
+        std::vector<std::vector<double>> A(n, std::vector<double>(n));
+        std::vector<double> x(n);
+        std::vector<double> y(n);
 
-    //         //TODO: add dgemv
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                A[i][j] = dist(gen);
+            }
+            x[i] = dist(gen);
+            y[i] = dist(gen);
+        }
 
-    //         stop = std::chrono::high_resolution_clock::now();
-    //         duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    //         elapsed_time += (duration.count() * 1.e-9);
-    //     }
+        for (int t = 0; t < ntrials; t++) {
+            start = std::chrono::high_resolution_clock::now();
 
-    //     avg_time = elapsed_time / static_cast<long double>(ntrials);
+            try {
+                dgemv(a, A, x, b, y);
+            }
+            catch (const std::invalid_argument &e) {
+                std::cerr << "Error: " << e.what() << "\n\n";
+            }
 
-    //     elapsed_time = 0.L;
-    // }
+            stop = std::chrono::high_resolution_clock::now();
+            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+            elapsed_time += (duration.count() * 1.e-9);
+        }
 
-    // // Level 3 BLAS - DGEMM
-    // std::cout << "Level 3 BLAS - DGEMM \n";
-    // for (int i = 2; i <= 512; i++) {
+        avg_time = elapsed_time / static_cast<long double>(ntrials);
 
-    //     for (int t = 0; t < ntrials; t++) {
-    //         start = std::chrono::high_resolution_clock::now();
+        elapsed_time = 0.L;
+        std::cout << "n: " << n << ", Flops: " << flops << std::endl;
+        if (outFile.is_open()) {
+            outFile << "n: " << n << ", Flops: " << flops << std::endl;
+        }
+    }
 
-    //         //TODO: add dgemm
+    // Level 3 BLAS - DGEMM
+    std::cout << "Level 3 BLAS - DGEMM \n";
+    for (int n = 2; n <= 512; n++) {
 
-    //         stop = std::chrono::high_resolution_clock::now();
-    //         duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-    //         elapsed_time += (duration.count() * 1.e-9);
-    //     }
+        std::vector<std::vector<double>> A(n, std::vector<double>(n));
+        std::vector<std::vector<double>> B(n, std::vector<double>(n));
+        std::vector<std::vector<double>> C(n, std::vector<double>(n));
 
-    //     avg_time = elapsed_time / static_cast<long double>(ntrials);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                A[i][j] = dist(gen);
+                B[i][j] = dist(gen);
+                C[i][j] = dist(gen);
+            }
+        }
 
-    //     elapsed_time = 0.L;
-    // }
+        for (int t = 0; t < ntrials; t++) {
+            start = std::chrono::high_resolution_clock::now();
+
+            try {
+                dgemm(a, A, B, b, C);
+            }
+            catch (const std::invalid_argument &e) {
+                std::cerr << "Error: " << e.what() << "\n\n";
+            }
+
+            stop = std::chrono::high_resolution_clock::now();
+            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+            elapsed_time += (duration.count() * 1.e-9);
+        }
+
+        avg_time = elapsed_time / static_cast<long double>(ntrials);
+
+        elapsed_time = 0.L;
+        std::cout << "n: " << n << ", Flops: " << flops << std::endl;
+        if (outFile.is_open()) {
+            outFile << "n: " << n << ", Flops: " << flops << std::endl;
+        }
+    }
 
     outFile.close();
 
