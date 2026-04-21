@@ -2,7 +2,10 @@
 #include <vector>
 #include <chrono>
 #include <random>
+#include <fstream>
 #include "daxpy/ref_daxpy.hpp"
+#include "dgemm/ref_dgemm.hpp"
+#include "dgmev/ref_dgemv.hpp"
 
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
@@ -10,6 +13,7 @@ int main() {
     auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
     long double elapsed_time = 0.L;
     long double avg_time;
+    long double flops;
     const int ntrials = 5;
 
     const double a = 2.5;
@@ -19,6 +23,8 @@ int main() {
     std::uniform_real_distribution<double> dist(1.0, 10.0);
 
     //TODO: Methodize?
+
+    std::ofstream outFile("hw3_results.txt");
 
     // Level 1 BLAS - DAXPY
     std::cout << "Level 1 BLAS - DAXPY \n";
@@ -48,44 +54,55 @@ int main() {
 
         avg_time = elapsed_time / static_cast<long double>(ntrials);
 
+        flops = (2.L * n) / avg_time;
+
         elapsed_time = 0.L;
-    }
 
-    // Level 2 BLAS - DGEMV
-    std::cout << "Level 2 BLAS - DGEMV \n";
-    for (int i = 2; i <= 512; i++) {
-
-        for (int t = 0; t < ntrials; t++) {
-            start = std::chrono::high_resolution_clock::now();
-
-            //TODO: add dgemv
-
-            stop = std::chrono::high_resolution_clock::now();
-            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-            elapsed_time += (duration.count() * 1.e-9);
+        std::cout << "n: " << n << ", Flops: " << flops << std::endl;
+        if (outFile.is_open()) {
+            outFile << "n: " << n << ", Flops: " << flops << std::endl;
         }
-
-        avg_time = elapsed_time / static_cast<long double>(ntrials);
-
-        elapsed_time = 0.L;
     }
 
-    // Level 3 BLAS - DGEMM
-    std::cout << "Level 3 BLAS - DGEMM \n";
-    for (int i = 2; i <= 512; i++) {
+    // // Level 2 BLAS - DGEMV
+    // std::cout << "Level 2 BLAS - DGEMV \n";
+    // for (int i = 2; i <= 512; i++) {
 
-        for (int t = 0; t < ntrials; t++) {
-            start = std::chrono::high_resolution_clock::now();
+    //     for (int t = 0; t < ntrials; t++) {
+    //         start = std::chrono::high_resolution_clock::now();
 
-            //TODO: add dgemm
+    //         //TODO: add dgemv
 
-            stop = std::chrono::high_resolution_clock::now();
-            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-            elapsed_time += (duration.count() * 1.e-9);
-        }
+    //         stop = std::chrono::high_resolution_clock::now();
+    //         duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    //         elapsed_time += (duration.count() * 1.e-9);
+    //     }
 
-        avg_time = elapsed_time / static_cast<long double>(ntrials);
+    //     avg_time = elapsed_time / static_cast<long double>(ntrials);
 
-        elapsed_time = 0.L;
-    }
+    //     elapsed_time = 0.L;
+    // }
+
+    // // Level 3 BLAS - DGEMM
+    // std::cout << "Level 3 BLAS - DGEMM \n";
+    // for (int i = 2; i <= 512; i++) {
+
+    //     for (int t = 0; t < ntrials; t++) {
+    //         start = std::chrono::high_resolution_clock::now();
+
+    //         //TODO: add dgemm
+
+    //         stop = std::chrono::high_resolution_clock::now();
+    //         duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    //         elapsed_time += (duration.count() * 1.e-9);
+    //     }
+
+    //     avg_time = elapsed_time / static_cast<long double>(ntrials);
+
+    //     elapsed_time = 0.L;
+    // }
+
+    outFile.close();
+
+    return 0;
 }
