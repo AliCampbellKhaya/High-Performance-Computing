@@ -1,6 +1,12 @@
 #include <vector>
 #include <stdexcept>
 
+/*
+DGEMM performs n * (m * (3 + (p * 2))) floating point operations
+Where n is the number of rows in matrix A, m is the number of columns in matrix B,
+and p is the number of columns in matrix A
+*/
+
 void dgemm(double a, const std::vector<std::vector<double>> &A, const std::vector<std::vector<double>> &B,
             double b, std::vector<std::vector<double>> &C) {
 
