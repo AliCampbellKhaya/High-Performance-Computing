@@ -1,5 +1,6 @@
 #include <vector>
 #include <stdexcept>
+#include "ref_daxpy.hpp"
 
 /*
 Each iteration of DAXPY performs 2 floating point operations (1 + and 1 *)
