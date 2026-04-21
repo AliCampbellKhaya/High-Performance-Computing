@@ -1,16 +1,14 @@
 #include <vector>
+#include <stdexcept>
 
 void daxpy(double a, const std::vector<double> &x, std::vector<double> &y)  {
-    int n = 512;
-    int ntrial = 5; // tbd
+    
+    if (x.size() != y.size()) {
+        throw std::invalid_argument("It is not possible to add vectors of different sizes.");
+    }
 
-    for (int i = 2; i <= 512; i++) {
-
-        for (int j = 0; j < ntrial; j++) {
-
-            
-
-        }
+    for (int i = 0; i < x.size(); i++) {
+        y[i] = a * x[i] + y[i];
     }
     
 }
