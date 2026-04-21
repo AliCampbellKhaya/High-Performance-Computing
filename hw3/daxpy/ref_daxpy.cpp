@@ -1,5 +1,3 @@
-#include <vector>
-#include <stdexcept>
 #include "ref_daxpy.hpp"
 
 /*

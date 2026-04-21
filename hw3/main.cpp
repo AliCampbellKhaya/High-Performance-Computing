@@ -2,7 +2,7 @@
 #include <vector>
 #include <chrono>
 #include <random>
-#include "ref_daxpy.hpp"
+#include "daxpy/ref_daxpy.hpp"
 
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
