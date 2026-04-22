@@ -1,5 +1,4 @@
-#include <vector>
-#include <stdexcept>
+#include "ref_dgemv.hpp"
 
 /*
 DGEMV performs n * (3 + (2 * m)) floating point operations
