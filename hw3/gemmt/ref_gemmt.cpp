@@ -3,6 +3,11 @@
 template <typename T>
 void gemm(T a, const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B,
             T b, std::vector<std::vector<T>> &C) {
+
+    if (A.empty() || B.empty() || C.empty()) {
+        throw std::invalid_argument("Matrix A, B or C cannot be empty.");
+    }
+
     if (A[0].size() != B.size()) {
         throw std::invalid_argument("Matrix A must have the same number of columns as rows in matrix B.");
     }
@@ -14,7 +19,7 @@ void gemm(T a, const std::vector<std::vector<T>> &A, const std::vector<std::vect
     for (int i = 0; i < A.size(); i++) {
         
         for (int j = 0; j < B[0].size(); j++) {
-            double sum = 0;
+            T sum = 0;
 
             for (int k = 0; k < A[0].size(); k++) {
                 sum += A[i][k] * B[k][j];

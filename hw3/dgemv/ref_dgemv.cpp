@@ -8,6 +8,10 @@ Where n is the number of rows in matrix A and m is the number of columns in matr
 void dgemv(double a, const std::vector<std::vector<double>> &A, const std::vector<double> &x,
             double b, std::vector<double> &y) {
 
+    if (A.empty()) {
+        throw std::invalid_argument("Matrix A cannot be empty.");
+    }
+
     if (A[0].size() != x.size()) {
         throw std::invalid_argument("Matrix A must have the same number of columns as elements in vector x.");
     }

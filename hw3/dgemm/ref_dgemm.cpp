@@ -11,6 +11,10 @@ and p is the number of columns in matrix A
 void dgemm(double a, const std::vector<std::vector<double>> &A, const std::vector<std::vector<double>> &B,
             double b, std::vector<std::vector<double>> &C) {
 
+    if (A.empty() || B.empty() || C.empty()) {
+        throw std::invalid_argument("Matrix A, B or C cannot be empty.");
+    }
+
     if (A[0].size() != B.size()) {
         throw std::invalid_argument("Matrix A must have the same number of columns as rows in matrix B.");
     }
