@@ -24,9 +24,7 @@ int main() {
         std::cout << "[FAIL] AXPY <int> Result: " << y1[0] << ", " << y1[1] << "\n";
     }
 
-    // 2. TEST GEMV (Double)
-    // A = [[1, 2], [3, 4]], x = [5, 6], a=1, b=0, y=[0, 0]
-    // Result: [1*5 + 2*6, 3*5 + 4*6] = [17, 39]
+    // Library test for GEMV
     std::vector<std::vector<double>> A2 = {{1.0, 2.0}, {3.0, 4.0}};
     std::vector<double> x2 = {5.0, 6.0};
     std::vector<double> y2 = {0.0, 0.0};
@@ -37,17 +35,15 @@ int main() {
         std::cout << "[FAIL] GEMV <double>\n";
     }
 
-    // 3. TEST GEMM (Integer)
-    // A = [[1, 2], [3, 4]], B = [[5, 6], [7, 8]], C = [[0, 0], [0, 0]]
-    // AB = [[19, 22], [43, 50]]
-    std::vector<std::vector<int>> A3 = {{1, 2}, {3, 4}};
-    std::vector<std::vector<int>> B3 = {{5, 6}, {7, 8}};
-    std::vector<std::vector<int>> C3 = {{0, 0}, {0, 0}};
-    gemm<int>(1, A3, B3, 0, C3);
+    // Library test for GEMM
+    std::vector<std::vector<float>> A3 = {{1.f, 2.f}, {3.f, 4.f}};
+    std::vector<std::vector<float>> B3 = {{5.f, 6.f}, {7.f, 8.f}};
+    std::vector<std::vector<float>> C3 = {{0.f, 0.f}, {0.f, 0.f}};
+    gemm<float>(1.f, A3, B3, 0.f, C3);
     if (C3[0][0] == 19 && C3[1][1] == 50) {
-        std::cout << "[PASS] GEMM <int>\n";
+        std::cout << "[PASS] GEMM <float>\n";
     } else {
-        std::cout << "[FAIL] GEMM <int>\n";
+        std::cout << "[FAIL] GEMM <float>\n";
     }
 
     // 4. TEST ERROR HANDLING
