@@ -26,6 +26,9 @@ int main() {
 
     // Level 1 BLAS - DAXPY
     std::cout << "Level 1 BLAS - DAXPY \n";
+    if (outFile.is_open()) {
+            outFile << "Level 1 BLAS - DAXPY" << std::endl;
+    }
     for (int n = 2; n <= 512; n++) {
         std::vector<double> x(n);
         std::vector<double> y(n);
@@ -64,6 +67,9 @@ int main() {
 
     // Level 2 BLAS - DGEMV
     std::cout << "Level 2 BLAS - DGEMV \n";
+    if (outFile.is_open()) {
+            outFile << "Level 2 BLAS - DGEMV" << std::endl;
+    }
     for (int n = 2; n <= 512; n++) {
 
         std::vector<std::vector<double>> A(n, std::vector<double>(n));
@@ -106,6 +112,9 @@ int main() {
 
     // Level 3 BLAS - DGEMM
     std::cout << "Level 3 BLAS - DGEMM \n";
+    if (outFile.is_open()) {
+            outFile << "Level 3 BLAS - DGEMM" << std::endl;
+    }
     for (int n = 2; n <= 512; n++) {
 
         std::vector<std::vector<double>> A(n, std::vector<double>(n));
