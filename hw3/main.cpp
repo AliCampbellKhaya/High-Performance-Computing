@@ -95,6 +95,8 @@ int main() {
 
         avg_time = elapsed_time / static_cast<long double>(ntrials);
 
+        flops = (n * (3 + (2 * n))) / avg_time;
+
         elapsed_time = 0.L;
         std::cout << "n: " << n << ", Flops: " << flops << std::endl;
         if (outFile.is_open()) {
@@ -134,6 +136,8 @@ int main() {
         }
 
         avg_time = elapsed_time / static_cast<long double>(ntrials);
+
+        flops = (n * (n * (3 +(2 * n)))) / avg_time;
 
         elapsed_time = 0.L;
         std::cout << "n: " << n << ", Flops: " << flops << std::endl;

@@ -21,10 +21,10 @@ void dgemm(double a, const std::vector<std::vector<double>> &A, const std::vecto
 
     for (int i = 0; i < A.size(); i++) {
         
-        for (int j = 0; j < B[i].size(); j++) {
+        for (int j = 0; j < B[0].size(); j++) {
             double sum = 0;
 
-            for (int k = 0; k < A[i].size(); k++) {
+            for (int k = 0; k < A[0].size(); k++) {
                 sum += A[i][k] * B[k][j];
 
             }
