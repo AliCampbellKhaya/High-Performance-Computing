@@ -5,7 +5,7 @@
 #include <fstream>
 #include "daxpy/ref_daxpy.hpp"
 #include "dgemm/ref_dgemm.hpp"
-#include "dgmev/ref_dgemv.hpp"
+#include "dgemv/ref_dgemv.hpp"
 
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
