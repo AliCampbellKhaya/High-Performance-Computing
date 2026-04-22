@@ -57,9 +57,6 @@ int main() {
     } catch (const std::invalid_argument& e) {
         std::cout << "[PASS] Caught expected error: " << e.what() << "\n";
     }
-
-    std::cout << "--- Tests Complete ---\n";
-    return 0;
     
     // Library test for GEMM
     std::vector<std::vector<int>> A = {{1, 0}, {0, 1}};
@@ -69,7 +66,7 @@ int main() {
 
     std::cout << "Library Test (GEMM <int>): C[1][1] = " << C[1][1] << " (Expected 8)" << std::endl;
 
-
+    std::cout << "--- Tests Complete ---\n";
 
     return 0;
 }
