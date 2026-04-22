@@ -1,5 +1,1 @@
-#include <vector>
-
-void daxpy(double a, const std::vector<double> &x, std::vector<double> &y)  {
-
-}
+#include "ref_axpyt.hpp"
