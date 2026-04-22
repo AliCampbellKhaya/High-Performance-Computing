@@ -3,3 +3,5 @@
 .vscode/tasks.json
 *.exe
 *.txt
+*.so
+*.o
