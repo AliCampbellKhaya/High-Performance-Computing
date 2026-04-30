@@ -32,10 +32,9 @@ public:
 
     Matrix<T> operator*(const Matrix<T> &other) const
     {
-        // write your code
-
-        // temporary line so the starter compiles before implementation
-        throw std::logic_error("operator* not implemented");
+        if (num_cols != other.num_rows) {
+            throw std::invalid_argument("Matrix A must have the same number of columns as rows in Matrix B (A * B)")
+        }
     }
 
     Matrix<T> operator+(const Matrix<T> &other) const;
@@ -89,11 +88,15 @@ private:
 template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const
 {
-    // check for errors in Matrix dimensions
+    if(num_rows != other.num_rows || num_cols != other.num_cols) {
+        throw std::invalid argument("Matrix A must have the same dimensions as matrix B (A + B)")
+    }
 
     Matrix<T> result(num_rows, num_cols);
 
-    // write your code
+    for (int i = 0; i < num_rows * num_cols; i++) {
+        result.data[i] = data[i] + other.data[i]
+    }
 
     return result;
 }
