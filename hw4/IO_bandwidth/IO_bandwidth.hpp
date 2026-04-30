@@ -10,7 +10,7 @@ void fileWriteMatrix(std::string& filename, std::vector<double>& matrix, int n) 
 
     std::fstream file(filename, std::ios::out | std::ios::binary);
     if (file.is_open()) { 
-        file.write(reinterpret_cast<char *>(&matrix[0]), sizeof(double) * n * n);
+        file.write(reinterpret_cast<char*>(&matrix[0]), sizeof(double) * n * n);
     }
     file.close();
 }

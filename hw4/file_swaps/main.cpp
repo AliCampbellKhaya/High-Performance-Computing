@@ -11,10 +11,9 @@
 
 #include <string>
 
-int main (int argc, char* argv[]){
 
-    int numRows, numCols = argc;
-    std::string filename = argv[1];
+
+int main(){
 
     int i = 0; int j = 0; //temporary for compilatiom
     
@@ -24,7 +23,7 @@ int main (int argc, char* argv[]){
     // init matrix elements in column major order
     // write the matrix to a file
     std::fstream file(filename, std::ios::out | std::ios::binary );
-    file.write(reinterpret_cast<char*>(& matrix[0]), numRows * numCols * sizeof(double));
+    file.write(reinterpret_cast<char*>(&matrix[0]), numRows * numCols * sizeof(double));
     file.close();
     // Open the file in read - write mode for swapping
     std::fstream fileToSwap(filename, std::ios::in | std::ios::out | std::ios::binary );
@@ -40,5 +39,7 @@ int main (int argc, char* argv[]){
     // ...
     // after each problem size delete the test file
     std::remove(filename.c_str());
-    // ...
+
+
+    
 }
