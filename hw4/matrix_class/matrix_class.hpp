@@ -33,15 +33,37 @@ public:
     Matrix<T> operator*(const Matrix<T> &other) const
     {
         if (num_cols != other.num_rows) {
-            throw std::invalid_argument("Matrix A must have the same number of columns as rows in Matrix B (A * B)")
+            throw std::invalid_argument("Matrix A must have the same number of columns as rows in Matrix B (A * B)");
         }
+
+        Matrix<T> result(num_rows, other.num_cols);
+
+        for (int i = 0; i < num_rows; i++) {
+            for (int j = 0; j < other.cols; j++) {
+                T sum = 0;
+                for (int k = 0; k < num_cols) {
+                    sum += data[i * num_cols + k] * other.data[k * other.num_cols + j];
+                }
+                result.data[i * other.cols + j] = sum;
+            }
+        }
+
+        return result;
     }
 
     Matrix<T> operator+(const Matrix<T> &other) const;
 
     Matrix<T> transpose() const
     {
-        
+        Matrix<T> result(num_rows, num_cols);
+
+        for (int i = 0; i < num_rows; i++) {
+            for (int j = 0; j < num_cols; j++) {
+                result.data[j * num_rows + i] = data[i * num_cols + j];
+            }
+        }
+
+        return result;
     }
 
     int numRows() const
@@ -58,7 +80,18 @@ public:
     {
         T norm = 0;
 
-        // write your code
+        for (int i = 0; i < num_rows; i++) {
+            T current_sum = 0;
+
+            for (int j = 0; j < num_cols; j++) {
+                current_sum += data[i * num_cols + j];
+
+            }
+
+            if (current_sum ? norm) {
+                norm = current_sum;
+            }
+        }
 
         return norm;
     }
@@ -86,13 +119,13 @@ template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const
 {
     if(num_rows != other.num_rows || num_cols != other.num_cols) {
-        throw std::invalid argument("Matrix A must have the same dimensions as matrix B (A + B)")
+        throw std::invalid argument("Matrix A must have the same dimensions as matrix B (A + B)");
     }
 
     Matrix<T> result(num_rows, num_cols);
 
     for (int i = 0; i < num_rows * num_cols; i++) {
-        result.data[i] = data[i] + other.data[i]
+        result.data[i] = data[i] + other.data[i];
     }
 
     return result;
