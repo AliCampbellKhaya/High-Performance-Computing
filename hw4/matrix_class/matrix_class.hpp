@@ -84,11 +84,11 @@ public:
             T current_sum = 0;
 
             for (int j = 0; j < num_cols; j++) {
-                current_sum += data[i * num_cols + j];
+                current_sum += std::abs(data[i * num_cols + j]);
 
             }
 
-            if (current_sum ? norm) {
+            if (current_sum > norm) {
                 norm = current_sum;
             }
         }
