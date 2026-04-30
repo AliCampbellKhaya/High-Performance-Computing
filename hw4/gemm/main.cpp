@@ -24,11 +24,12 @@ void test() {
     std::mt19937 gen(0);
     std::uniform_real_distribution<T> dist(1.0, 10.0);
 
-    std::ofstream outFile("hw4_gemm_results.txt");
+    std::ofstream outFile("hw4_gemm_results.csv");
 
     std::cout << "gemm \n";
     if (outFile.is_open()) {
-            outFile << "gemm" << std::endl;
+            outFile << "gemm\n";
+            outFile << "order,dimension,flops";
     }
 
     for (int n = 2; n <= 512; n++) {
@@ -84,8 +85,8 @@ void test() {
         std::cout << "(jki) n: " << n << ", Flops: " << jki_flops << std::endl;
 
         if (outFile.is_open()) {
-            outFile << "(kij) n: " << n << ", Flops: " << kij_flops << std::endl;
-            outFile << "(jki) n: " << n << ", Flops: " << jki_flops << std::endl;
+            outFile << "kij," << n << "," << kij_flops << "\n";
+            outFile << "jki," << n << "," << jki_flops << "\n";
         }
     }
 

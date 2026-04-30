@@ -7,3 +7,5 @@
 *.o
 *.gch
 *.dll
+*.csv
+*.bin
