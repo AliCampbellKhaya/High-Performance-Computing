@@ -6,9 +6,6 @@
 #include "IO_bandwidth.hpp"
 
 int main() {
-    printf("N\t\tSize(GB)\tWrite(MB/s)\tRead(MB/s)\n");
-    printf("----------------------------------------------------------\n");
-
     std::ofstream outFile("hw4_iob_results.txt");
 
     std::cout << "N\t Size (GB)\t Write (MB/s)\t Read (MB/s)" << std::endl;
