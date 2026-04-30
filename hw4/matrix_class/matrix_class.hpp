@@ -41,10 +41,7 @@ public:
 
     Matrix<T> transpose() const
     {
-        // write your code
-
-        // temporary line so the starter compiles before implementation
-        throw std::logic_error("transpose not implemented");
+        
     }
 
     int numRows() const
