@@ -11,10 +11,6 @@
 #include <string>
 #include "file_swaps.hpp"
 
-
-
-
-
 int main(){
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -79,12 +75,15 @@ int main(){
         avgRowSwapTime = rowSwapElapsedTime / static_cast<long double>(ntrials);
         avgColSwapTime = colSwapElapsedTime / static_cast<long double>(ntrials);
 
+        rowSwapElapsedTime = 0.L;
+        colSwapElapsedTime = 0.L;
+
         std::cout << "n: " << n << " Row Swap Time: " << avgRowSwapTime << " Col Swap Time: " << avgColSwapTime << std::endl;
         if (outFile.is_open()) {
             outFile << n << "," << avgRowSwapTime << "," << avgColSwapTime << "\n";
         }
 
-        std::remove(filename.c_str());
+        //std::remove(filename.c_str());
     }
 
     outFile.close();

@@ -6,7 +6,7 @@
 #include "gemm.hpp"
 
 template <typename T>
-void test() {
+void test(std::fstream &outFile) {
     auto start = std::chrono::high_resolution_clock::now();
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
@@ -23,8 +23,6 @@ void test() {
 
     std::mt19937 gen(0);
     std::uniform_real_distribution<T> dist(1.0, 10.0);
-
-    std::ofstream outFile("hw4_gemm_results.csv");
 
     std::cout << "gemm \n";
     if (outFile.is_open()) {
@@ -90,12 +88,13 @@ void test() {
         }
     }
 
-    outFile.close();
+    
 }
 
 int main() {
-    test<float>();
-    test<double>();
-
+    std::fstream outFile("hw4_gemm_results_O3.csv");;
+    test<float>(outFile);
+    test<double>(outFile);
+    outFile.close();
     return 0;
 }

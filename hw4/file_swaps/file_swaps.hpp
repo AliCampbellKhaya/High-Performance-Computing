@@ -7,8 +7,8 @@
 void swapRowsInFile(std::fstream &file, int nRows, int nCols, int i, int j){
 
     for (int k = 0; k < nCols; k++) {
-        std::streampos locRowI = (k * nRows + i) * sizeof(double);
-        std::streampos locRowJ = (k * nRows + j) * sizeof(double);
+        std::streampos locRowI = (static_cast<std::streamoff>(k) * nRows + i) * sizeof(double);
+        std::streampos locRowJ = (static_cast<std::streamoff>(k) * nRows + j) * sizeof(double);
 
         double valRowI;
         double valRowJ;
@@ -18,6 +18,8 @@ void swapRowsInFile(std::fstream &file, int nRows, int nCols, int i, int j){
 
         file.seekg(locRowJ);
         file.read(reinterpret_cast<char*>(&valRowJ), sizeof(double));
+
+        file.clear();
 
         file.seekp(locRowI);
         file.write(reinterpret_cast<char*>(&valRowJ), sizeof(double));
@@ -30,23 +32,25 @@ void swapRowsInFile(std::fstream &file, int nRows, int nCols, int i, int j){
 
 void swapColsInFile(std::fstream &file, int nRows, int nCols, int i, int j){
 
-    std::streampos locColI = (i * nRows) * sizeof(double);
-    std::streampos locColJ = (j * nRows) * sizeof(double);
+    std::streampos locColI = (static_cast<std::streamoff>(i) * nRows) * sizeof(double);
+    std::streampos locColJ = (static_cast<std::streamoff>(j) * nRows) * sizeof(double);
 
-    std::vector<double> valColI;
-    std::vector<double> valColJ;
+    std::vector<double> valColI(nRows);
+    std::vector<double> valColJ(nRows);
 
     file.seekg(locColI);
-    file.read(reinterpret_cast<char*>(&valColI), nRows * sizeof(double));
+    file.read(reinterpret_cast<char*>(valColI.data()), nRows * sizeof(double));
 
     file.seekg(locColJ);
-    file.read(reinterpret_cast<char*>(&valColJ), nRows * sizeof(double));
+    file.read(reinterpret_cast<char*>(valColJ.data()), nRows * sizeof(double));
+
+    file.clear();
 
     file.seekp(locColI);
-    file.write(reinterpret_cast<char*>(&valColJ), nRows * sizeof(double));
+    file.write(reinterpret_cast<char*>(valColJ.data()), nRows * sizeof(double));
 
     file.seekp(locColJ);
-    file.write(reinterpret_cast<char*>(&valColI), nRows * sizeof(double));
+    file.write(reinterpret_cast<char*>(valColI.data()), nRows * sizeof(double));
 
     file.flush();
 
