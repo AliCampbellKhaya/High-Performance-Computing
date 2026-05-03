@@ -5,11 +5,11 @@
 #include <iostream>
 
 void swapRows(std::vector<double> &matrix, int nRows, int nCols, int i, int j) {
-
+    
 }
 
 void swapCols(std::vector<double> &matrix, int nRows, int nCols, int i, int j) {
-    
+
 }
 
 #endif
