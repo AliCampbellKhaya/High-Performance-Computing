@@ -2,6 +2,10 @@
 #include <vector>
 #include <utility>
 #include <fstream>
+#include <ctime>
+#include <cstdio>
+#include <chrono>
+#include <random>
 #include "mem_swaps.hpp"
 
 std::pair<int, int> getRandomIndices(int n) {
