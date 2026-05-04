@@ -5,15 +5,12 @@
 #include "strassen.hpp" //revert to not using hpp file to match submission requirements.
 
 template <typename T>
-std::vector<std::vector<T>> addMatrix(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B)
-{
+std::vector<std::vector<T>> addMatrix(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B) {
     int n = A.size();
     int m = A[0].size();
     std::vector<std::vector<T>> C(n, std::vector<T>(m));
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
             C[i][j] = A[i][j] + B[i][j];
         }
     }
@@ -21,15 +18,12 @@ std::vector<std::vector<T>> addMatrix(const std::vector<std::vector<T>> &A, cons
 }
 
 template <typename T>
-std::vector<std::vector<T>> subtractMatrix(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B)
-{
+std::vector<std::vector<T>> subtractMatrix(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B) {
     int n = A.size();
     int m = A[0].size();
     std::vector<std::vector<T>> C(n, std::vector<T>(m));
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
             C[i][j] = A[i][j] - B[i][j];
         }
     }
@@ -37,20 +31,16 @@ std::vector<std::vector<T>> subtractMatrix(const std::vector<std::vector<T>> &A,
 }
 
 template <typename T>
-std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B)
-{
-// write this code
+std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B) {
+
 }
 
 template <typename T>
-void printMatrix(const std::vector<std::vector<T>> &matrix)
-{
+void printMatrix(const std::vector<std::vector<T>> &matrix) {
     int n = matrix.size();
     int m = matrix[0].size();
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
             cout << matrix[i][j] << " ";
         }
         cout << endl;
