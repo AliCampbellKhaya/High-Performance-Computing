@@ -2,7 +2,9 @@
 // AMATH 483-583
 // strassen.cpp : starter code for Strassen implementation
 
-#include "strassen.hpp" //revert to not using hpp file to match submission requirements.
+#include <iostream>
+#include <vector>
+#include <cmath>
 
 template <typename T>
 std::vector<std::vector<T>> addMatrix(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B) {
@@ -33,10 +35,52 @@ std::vector<std::vector<T>> subtractMatrix(const std::vector<std::vector<T>> &A,
 template <typename T>
 std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B) {
     int n = A.size();
-    int m = B[0].size();
-    std::vector<std::vector<T>> C(n, std::vector<T>(m));
-
     
+    if (n == 1) {
+        return {{A[0][0] * B[0][0]}};
+    }
+
+    int m = n / 2;
+
+    std::vector<std::vector<T>> A11(m, std::vector<T>(m));
+    std::vector<std::vector<T>> A12(m, std::vector<T>(m));
+    std::vector<std::vector<T>> A21(m, std::vector<T>(m));
+    std::vector<std::vector<T>> A22(m, std::vector<T>(m));
+
+    std::vector<std::vector<T>> B11(m, std::vector<T>(m));
+    std::vector<std::vector<T>> B12(m, std::vector<T>(m));
+    std::vector<std::vector<T>> B21(m, std::vector<T>(m));
+    std::vector<std::vector<T>> B22(m, std::vector<T>(m));
+    
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < m; j++) {
+            A11[i][j] = A[i][j];
+            A12[i][j] = A[i][j+m];
+            A21[i][j] = A[i+m][j];
+            A22[i][j] = A[i+m][j+m];
+
+            B11[i][j] = B[i][j];
+            B12[i][j] = B[i][j+m];
+            B21[i][j] = B[i+m][j];
+            B22[i][j] = B[i+m][j+m];
+        }
+    }
+
+    std::vector<std::vector<T>> M1 = strassenMultiply(addMatrix(A11, A22), addMatrix(B11, B22));
+    std::vector<std::vector<T>> M2 = strassenMultiply(addMatrix(A21, A22), B11);
+    std::vector<std::vector<T>> M3 = strassenMultiply(A11, subtractMatrix(B12, B22));
+    std::vector<std::vector<T>> M4 = strassenMultiply(A22, subtractMatrix(B21, B11));
+    std::vector<std::vector<T>> M5 = strassenMultiply(addMatrix(A11, A12), B22);
+    std::vector<std::vector<T>> M6 = strassenMultiply(subtractMatrix(A21, A11), addMatrix(B11, B12));
+    std::vector<std::vector<T>> M7 = strassenMultiply(subtractMatrix(A12, A22), addMatrix(B21, B22));
+
+    std::vector<std::vector<T>> C11 = addMatrix(M1, subtractMatrix(M4, addMatrix(M5, M7)));
+    std::vector<std::vector<T>> C12 = addMatrix(M3, M5);
+    std::vector<std::vector<T>> C21 = addMatrix(M2, M4);
+    std::vector<std::vector<T>> C22 = subtractMatrix(M1, addMatrix(M2, addMatrix(M3, M6)));
+
+    std::vector<std::vector<T>> C(n, std::vector<T>(n));
+
 }
 
 template <typename T>

@@ -40,7 +40,7 @@ int main() {
     long double avgRowSwapTime;
     long double avgColSwapTime;
 
-    std::cout << "n\t Row Swap Time\t Col SwapTime\n";
+    std::cout << "n\t Row Swap Time\t Col Swap Time\n";
     if (outFile.is_open()) {
         outFile << "n, Row Swap Time, Col Swap Time\n";
     }
