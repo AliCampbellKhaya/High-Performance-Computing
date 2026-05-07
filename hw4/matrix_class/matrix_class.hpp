@@ -39,12 +39,12 @@ public:
         Matrix<T> result(num_rows, other.num_cols);
 
         for (int i = 0; i < num_rows; i++) {
-            for (int j = 0; j < other.cols; j++) {
+            for (int j = 0; j < other.num_cols; j++) {
                 T sum = 0;
-                for (int k = 0; k < num_cols) {
+                for (int k = 0; k < num_cols; k++) {
                     sum += data[i * num_cols + k] * other.data[k * other.num_cols + j];
                 }
-                result.data[i * other.cols + j] = sum;
+                result.data[i * other.num_cols + j] = sum;
             }
         }
 
@@ -55,7 +55,7 @@ public:
 
     Matrix<T> transpose() const
     {
-        Matrix<T> result(num_rows, num_cols);
+        Matrix<T> result(num_cols, num_rows);
 
         for (int i = 0; i < num_rows; i++) {
             for (int j = 0; j < num_cols; j++) {
@@ -119,7 +119,7 @@ template <typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T> &other) const
 {
     if(num_rows != other.num_rows || num_cols != other.num_cols) {
-        throw std::invalid argument("Matrix A must have the same dimensions as matrix B (A + B)");
+        throw std::invalid_argument("Matrix A must have the same dimensions as matrix B (A + B)");
     }
 
     Matrix<T> result(num_rows, num_cols);

@@ -23,7 +23,7 @@ int main(){
 
     const std::string filename = "matrix.bin";
 
-    std::fstream outFile("hw4_fileswaps.csv");
+    std::ofstream outFile("hw4_fileswaps.csv");
 
     long double rowSwapElapsedTime = 0.L;
     long double colSwapElapsedTime = 0.L;
@@ -83,7 +83,7 @@ int main(){
             outFile << n << "," << avgRowSwapTime << "," << avgColSwapTime << "\n";
         }
 
-        //std::remove(filename.c_str());
+        std::remove(filename.c_str());
     }
 
     outFile.close();

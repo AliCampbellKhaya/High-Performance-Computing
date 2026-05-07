@@ -14,7 +14,7 @@ int main() {
             outFile << "Dimension,Size (GB),Write (MB/s),Read (MB/s)\n";
     }
 
-    for (int n = 32; n <= 16384; n *= 2) {
+    for (int n = 32; n <= 16384; n *= 2) { //8192
         size_t num_elements = (size_t)n * n;
         size_t total_bytes = num_elements * sizeof(double);
         double size_gb = total_bytes / (1024.0 * 1024.0 * 1024.0);

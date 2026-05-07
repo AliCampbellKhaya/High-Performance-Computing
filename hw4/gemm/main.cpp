@@ -6,7 +6,7 @@
 #include "gemm.hpp"
 
 template <typename T>
-void test(std::fstream &outFile) {
+void test(std::ofstream &outFile) {
     auto start = std::chrono::high_resolution_clock::now();
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
@@ -92,7 +92,7 @@ void test(std::fstream &outFile) {
 }
 
 int main() {
-    std::fstream outFile("hw4_gemm_results_O3.csv");;
+    std::ofstream outFile("hw4_gemm_results_O3_double.csv");;
     test<float>(outFile);
     test<double>(outFile);
     outFile.close();
