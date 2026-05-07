@@ -32,7 +32,11 @@ std::vector<std::vector<T>> subtractMatrix(const std::vector<std::vector<T>> &A,
 
 template <typename T>
 std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &A, const std::vector<std::vector<T>> &B) {
+    int n = A.size();
+    int m = B[0].size();
+    std::vector<std::vector<T>> C(n, std::vector<T>(m));
 
+    
 }
 
 template <typename T>

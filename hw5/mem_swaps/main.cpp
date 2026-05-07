@@ -32,9 +32,7 @@ int main() {
     std::mt19937 gen(0);
     std::uniform_real_distribution<double> dist(1.0, 10.0);
 
-    const std::string filename = "matrix.bin";
-
-    std::ofstream outFile("hw4_fileswaps.csv");
+    std::ofstream outFile("hw5_fileswaps.csv");
 
     long double rowSwapElapsedTime = 0.L;
     long double colSwapElapsedTime = 0.L;
