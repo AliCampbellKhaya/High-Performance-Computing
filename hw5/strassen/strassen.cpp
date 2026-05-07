@@ -74,10 +74,10 @@ std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &
     std::vector<std::vector<T>> M6 = strassenMultiply(subtractMatrix(A21, A11), addMatrix(B11, B12));
     std::vector<std::vector<T>> M7 = strassenMultiply(subtractMatrix(A12, A22), addMatrix(B21, B22));
 
-    std::vector<std::vector<T>> C11 = addMatrix(M1, subtractMatrix(M4, addMatrix(M5, M7)));
+    std::vector<std::vector<T>> C11 = addMatrix(subtractMatrix(addMatrix(M1, M4), M5), M7);
     std::vector<std::vector<T>> C12 = addMatrix(M3, M5);
     std::vector<std::vector<T>> C21 = addMatrix(M2, M4);
-    std::vector<std::vector<T>> C22 = subtractMatrix(M1, addMatrix(M2, addMatrix(M3, M6)));
+    std::vector<std::vector<T>> C22 = addMatrix(subtractMatrix(M1, M2), addMatrix(M3, M6));
 
     std::vector<std::vector<T>> C(n, std::vector<T>(n));
 
@@ -89,6 +89,8 @@ std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &
             C[i+m][j+m] = C22[i][j];
         }
     }
+
+    return C;
 }
 
 template <typename T>
@@ -97,9 +99,9 @@ void printMatrix(const std::vector<std::vector<T>> &matrix) {
     int m = matrix[0].size();
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            cout << matrix[i][j] << " ";
+            std::cout << matrix[i][j] << " ";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
 }
 

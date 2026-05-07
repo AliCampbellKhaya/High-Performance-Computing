@@ -9,7 +9,6 @@
 #include <chrono>
 #include <random>
 #include <string>
-#include "strassen.hpp"
 #include "strassen.cpp"
 
 std::pair<int, int> getRandomIndices(int n) {
@@ -44,12 +43,14 @@ int main() {
         outFile << "n, Mult Time";
     }
 
-    for (int n = 2; n <= 512; n++) {
+    for (int n = 2; n <= 512; n *= 2) {
 
         std::cout << "Test for n: " << n << std::endl;
 
-        std::vector<std::vector<double>> matrixA(n, std::vector<double>(n));
-        std::vector<std::vector<double>> matrixB(n, std::vector<double>(n));
+        int padded_size = std::pow(2, std::ceil(std::log2(n)));
+
+        std::vector<std::vector<double>> matrixA(padded_size, std::vector<double>(padded_size));
+        std::vector<std::vector<double>> matrixB(padded_size, std::vector<double>(padded_size));
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 matrixA[i][j] = dist(gen);
