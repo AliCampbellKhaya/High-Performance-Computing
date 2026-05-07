@@ -81,6 +81,14 @@ std::vector<std::vector<T>> strassenMultiply(const std::vector<std::vector<T>> &
 
     std::vector<std::vector<T>> C(n, std::vector<T>(n));
 
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < m; j++) {
+            C[i][j] = C11[i][j];
+            C[i][j+m] = C12[i][j];
+            C[i+m][j] = C21[i][j];
+            C[i+m][j+m] = C22[i][j];
+        }
+    }
 }
 
 template <typename T>
