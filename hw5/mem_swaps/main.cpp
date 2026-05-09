@@ -32,7 +32,7 @@ int main() {
     std::mt19937 gen(0);
     std::uniform_real_distribution<double> dist(1.0, 10.0);
 
-    std::ofstream outFile("hw5_fileswaps.csv");
+    std::ofstream outFile("hw5_memswaps.csv");
 
     long double rowSwapElapsedTime = 0.L;
     long double colSwapElapsedTime = 0.L;
@@ -66,8 +66,8 @@ int main() {
             rowSwapElapsedTime += (duration.count() * 1.e-9);
 
             std::pair<int, int> colIndices = getRandomIndices(n);
-            int i = colIndices.first;
-            int j = colIndices.second;
+            i = colIndices.first;
+            j = colIndices.second;
 
             start = std::chrono::high_resolution_clock::now();
             swapCols(matrix, n, n, i, j);
