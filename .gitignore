@@ -9,3 +9,4 @@
 *.dll
 *.csv
 *.bin
+.vscode/*
