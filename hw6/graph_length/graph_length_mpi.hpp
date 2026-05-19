@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <chrono>
 #include <mpi.h>
 
 /*
