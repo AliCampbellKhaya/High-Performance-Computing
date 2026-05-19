@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    outFileScale.close();
     std::ofstream outFileError{"hw6_graph_length_threads_error.csv"};
 
     std::cout << "partition points\t error" << std::endl;
@@ -49,6 +50,8 @@ int main(int argc, char* argv[]) {
             outFileError << m << "," << error << "\n";
         }
     }
+
+    outFileError.close();
 
     return 0;
 }
