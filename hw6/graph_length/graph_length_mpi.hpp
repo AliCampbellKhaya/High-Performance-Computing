@@ -1,3 +1,6 @@
+#ifndef GRAPH_LENGTH_MPI_HPP
+#define GRAPH_LENGTH_MPI_HPP
+
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -24,3 +27,5 @@ double reimann_sum(double a, double b, int n) {
 double function(double x) {
     return log(x) - 1/8 * pow(x, 2);
 }
+
+#endif
