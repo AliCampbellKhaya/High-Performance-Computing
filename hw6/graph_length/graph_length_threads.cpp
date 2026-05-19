@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "num threads\t time" << std::endl;
     if (outFileScale.is_open()) {
-        outFileScale << "num_threads, time\n";
+        outFileScale << "num_threads,time\n";
     }
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "partition points\t error" << std::endl;
     if (outFileError.is_open()) {
-        outFileError << "partition points, error\n";
+        outFileError << "partition_points,error\n";
     }
 
     double true_length = 0; //placeholder
