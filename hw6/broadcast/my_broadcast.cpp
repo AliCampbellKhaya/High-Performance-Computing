@@ -8,25 +8,25 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    const int start_bytes = 8;
-    const int max_bytes = 256 * 1024 * 1024;
+    const size_t start_bytes = 8;
+    const size_t max_bytes = 256 * 1024 * 1024;
     const int root = 0;
 
     std::ofstream outFile;
     if (rank == root) {
         outFile.open("hw6_broadcast.csv");
         outFile << "message_size_bytes,my_broadcast_time,mpi_broadcast_time";
-        std::cout << "Message Size Bytes \t My Broadcast Time \t MPI Broadcast Time";
+        std::cout << "Message Size Bytes \t My Broadcast Time \t MPI Broadcast Time\n";
     }
 
     std::vector<char> buffer(max_bytes, 'A');
 
-    for (int bytes = start_bytes; bytes <= max_bytes; bytes *= 2) {
+    for (size_t bytes = start_bytes; bytes <= max_bytes; bytes *= 2) {
         MPI_Barrier(MPI_COMM_WORLD);
 
         double start_my = MPI_Wtime();
 
-        my_broadcast(buffer.data(), bytes, root, MPI_COMM_WORLD);
+        my_broadcast(buffer.data(), static_cast<int>(bytes), root, MPI_COMM_WORLD);
 
         double end_my = MPI_Wtime();
         double elapsed_time_my = end_my - start_my;
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
         double start_mpi = MPI_Wtime();
 
-        MPI_Bcast(buffer.data(), bytes, MPI_BYTE, root, MPI_COMM_WORLD);
+        MPI_Bcast(buffer.data(), static_cast<int>(bytes), MPI_BYTE, root, MPI_COMM_WORLD);
 
         double end_mpi = MPI_Wtime();
         double elapsed_time_mpi = end_mpi - start_mpi;

@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 
     double a = 1.0;
     double b = 6.0;
-    int n = 1; // placeholder
+    const int n = 1e8;
 
     double local_a = a + ip * (b - a) / np;
     double local_b = a + (ip + 1) * (b - a) / np;

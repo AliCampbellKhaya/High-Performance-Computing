@@ -27,12 +27,8 @@ void my_broadcast(T* data, int count, int root, MPI_Comm comm) {
         }
     }
     else {
-        MPI_Recv(data, bytes, MPI_BYTE, root, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(data, bytes, MPI_BYTE, root, tag, comm, MPI_STATUS_IGNORE);
         std::cout << "Rank " << rank << " received data: ";
-        for (int i = 0; i < count; i++) {
-            std::cout << data[i] << " ";
-        } 
-        std::cout << "\n";
     }
 }
 

@@ -39,12 +39,13 @@ int main(int argc, char* argv[]) {
         outFileError << "partition_points,error\n";
     }
 
-    double true_length = 0; //placeholder
-    const int m_threads = 1; //placeholder
+    const double true_length = log(6) + (36.0 / 8.0) - (1 / 8.0);
+    const int m_threads = 4; // 4 threads for error coz why not
 
     for (int m = 10; m <= 1e6; m *= 10) {
         double reimann_sum = parallel_reimann_sum(a, b, m, m_threads);
-        double error = abs(reimann_sum - true_length);
+        double error = std::abs(reimann_sum - true_length);
+        
         std::cout << "partition points: " << m << "error: " << error << std::endl;
         if (outFileError.is_open()) {
             outFileError << m << "," << error << "\n";
