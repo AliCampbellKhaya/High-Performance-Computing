@@ -1,4 +1,4 @@
-#include "hw6-elevator.hpp"
+#include "elevator.hpp"
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {

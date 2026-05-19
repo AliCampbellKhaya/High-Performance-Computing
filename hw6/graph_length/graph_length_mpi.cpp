@@ -1,4 +1,4 @@
-#include "graph_length.hpp"
+#include "graph_length_mpi.hpp"
 
 int main(int argc, char **argv) {
     MPI_Init(&argc, &argv);
