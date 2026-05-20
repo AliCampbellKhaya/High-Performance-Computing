@@ -22,13 +22,13 @@ void my_broadcast(T* data, int count, int root, MPI_Comm comm) {
         for (int i = 0; i < size; i++) {
             if (i != root) {
                 MPI_Send(data, bytes, MPI_BYTE, i, tag, comm);
-                std::cout << "Rank " << root << " sent data to Rank " << i << std::endl;
+                // std::cout << "Rank " << root << " sent data to Rank " << i << std::endl;
             }
         }
     }
     else {
         MPI_Recv(data, bytes, MPI_BYTE, root, tag, comm, MPI_STATUS_IGNORE);
-        std::cout << "Rank " << rank << " received data: ";
+        // std::cout << "Rank " << rank << " received data: ";
     }
 }
 

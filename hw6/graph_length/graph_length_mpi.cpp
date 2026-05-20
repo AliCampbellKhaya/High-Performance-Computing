@@ -50,10 +50,9 @@ int main(int argc, char **argv) {
 
     for (int m = 10; m <= 1e6; m*= 10) {
 
-        local_a = a + ip * (m / np);
-        local_b = a + (ip + 1) * (m / np);
+        int local_m = m / np;
 
-        local_sum = reimann_sum(local_a, local_b, (m / np));
+        local_sum = reimann_sum(local_a, local_b, local_m);
         
         MPI_Reduce(&local_sum, &global_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
