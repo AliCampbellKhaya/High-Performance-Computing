@@ -46,6 +46,7 @@ void elevator(int id) {
     vector<pair<int, int>> passengers; // pairs of (person_id, dest_floor)
 
     while (true) {
+        int p_curr_floor = -1;
 
         {
             unique_lock<mutex> lock(queue_mtx);
@@ -61,26 +62,11 @@ void elevator(int id) {
             global_queue.pop();
 
             int p_id = get<0>(queue_item);
-            int p_curr_floor = get<1>(queue_item);
+            p_curr_floor = get<1>(queue_item);
             int p_dest_floor = get<2>(queue_item);
-
-            if (elevator_positions[id] != p_curr_floor) {
-                {
-                lock_guard<mutex> lock(cout_mtx);
-                cout << "Elevator " << id << " moving from floor " << elevator_positions[id] << " to floor " << p_curr_floor << endl;
-                }
-
-                this_thread::sleep_for(chrono::milliseconds(abs(elevator_positions[id] - p_curr_floor) * 50));
-                elevator_positions[id] = p_curr_floor;
-            }
 
             passengers.emplace_back(make_pair(p_id, p_dest_floor));
             occupancy++;
-
-            {
-                lock_guard lock(cout_mtx);
-                cout << "Person " << p_id << " entered elevator " << id << endl;
-            }
 
             queue<tuple<int, int, int>> temp_queue;
 
@@ -96,13 +82,6 @@ void elevator(int id) {
                 if (p_curr_floor == elevator_positions[id]) {
                     passengers.emplace_back(make_pair(p_id, p_dest_floor));
                     occupancy++;
-                    num_people_serviced++;
-                    global_passengers_serviced[id]++;
-
-                    {
-                        lock_guard lock(cout_mtx);
-                        cout << "Person " << p_id << " entered elevator " << id << endl;
-                    }
                 }
                 // moves all items from the global queue to the temp queue while maintaing ordering
                 else {
@@ -115,14 +94,31 @@ void elevator(int id) {
                 temp_queue.push(global_queue.front());
                 global_queue.pop();
             }
-            global_queue.pop();
+            global_queue = move(temp_queue); // restores global queue before giving up lock
 
             cv.notify_all();
         }
 
+        if (elevator_positions[id] != p_curr_floor) {
+            {
+            lock_guard<mutex> lock(cout_mtx);
+            cout << "Elevator " << id << " moving from floor " << elevator_positions[id] << " to floor " << p_curr_floor << endl;
+            }
+
+            this_thread::sleep_for(chrono::milliseconds(abs(elevator_positions[id] - p_curr_floor) * 50));
+            elevator_positions[id] = p_curr_floor;
+        }
+
+        {
+            lock_guard lock(cout_mtx);
+            for (pair<int, int>& passenger : passengers) {
+                cout << "Person " << passenger.first << " entered elevator " << id << endl;
+            }
+        }
+
         while (!passengers.empty()) {
-            int closest_floor;
-            int min_distance = abs(elevator_positions[id] - passengers[0].second);
+            int closest_floor = passengers[0].second;
+            int min_distance = abs(elevator_positions[id] - closest_floor);
 
             for (pair<int, int>& passenger : passengers) {
                 int distance_to_floor = abs(elevator_positions[id] - passenger.second);
@@ -182,6 +178,8 @@ void person(int id) {
         lock_guard<mutex> lock(queue_mtx);
         global_queue.push(make_tuple(id, curr_floor, dest_floor));
     }
+
+    cv.notify_all();
 }
 
 #endif // ELEVATOR_HPP
