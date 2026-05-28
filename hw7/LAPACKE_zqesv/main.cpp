@@ -6,6 +6,7 @@
 #include <vector>
 #include <chrono>
 #include <limits>
+#include <fstream>
 #include <cblas.h>
 #include <lapacke.h>
 
