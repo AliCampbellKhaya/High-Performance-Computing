@@ -3,9 +3,7 @@
 #include <chrono>
 #include <random>
 #include <fstream>
-#include "cblas_daxpy.hpp"
-#include "cblas_dgemm.hpp"
-#include "cblas_dgemv.hpp"
+#include <cblas.h>
 
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
@@ -37,8 +35,11 @@ int main() {
 
     for (int n = 2; n <= 4096; n*=2) {
 
-        double X[n]; double Y[n];
-        double A[n * n]; double B[n * n]; double C[n * n];
+        std::vector<double> X(n); 
+        std::vector<double> Y(n);
+        std::vector<double> A(n * n); 
+        std::vector<double> B(n * n); 
+        std::vector<double> C(n * n);
 
         for (int i = 0; i < n; i++) {
             X[i] = dist(gen);
@@ -56,12 +57,7 @@ int main() {
         for (int t = 0; t < ntrials; t++) {
             start = std::chrono::high_resolution_clock::now();
 
-            try {
-                cblas_daxpy(n, alpha, X, 1, Y, 1);
-            }
-            catch (const std::invalid_argument &e) {
-                std::cerr << "Error: " << e.what() << "\n\n";
-            }
+            cblas_daxpy(n, alpha, X.data(), 1, Y.data(), 1);
 
             stop = std::chrono::high_resolution_clock::now();
             duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
@@ -85,12 +81,7 @@ int main() {
         for (int t = 0; t < ntrials; t++) {
             start = std::chrono::high_resolution_clock::now();
 
-            try {
-                cblas_dgemv(CblasColMajor, CblasNoTrans, n, n, alpha, A, n, X, 1, beta, Y, 1);
-            }
-            catch (const std::invalid_argument &e) {
-                std::cerr << "Error: " << e.what() << "\n\n";
-            }
+            cblas_dgemv(CblasColMajor, CblasNoTrans, n, n, alpha, A.data(), n, X.data(), 1, beta, Y.data(), 1);
 
             stop = std::chrono::high_resolution_clock::now();
             duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
@@ -114,12 +105,7 @@ int main() {
         for (int t = 0; t < ntrials; t++) {
             start = std::chrono::high_resolution_clock::now();
 
-            try {
-                cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, A, n, B, n, beta, C, n);
-            }
-            catch (const std::invalid_argument &e) {
-                std::cerr << "Error: " << e.what() << "\n\n";
-            }
+            cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, A.data(), n, B.data(), n, beta, C.data(), n);
 
             stop = std::chrono::high_resolution_clock::now();
             duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
@@ -129,7 +115,7 @@ int main() {
         avg_time = elapsed_time / static_cast<long double>(ntrials);
 
         long double dgemm_flops = (2.L * n) / avg_time;
-        long double dgemm_mflops = daxpy_flops / 1e6;
+        long double dgemm_mflops = dgemm_flops / 1e6;
 
         elapsed_time = 0.L;
 
