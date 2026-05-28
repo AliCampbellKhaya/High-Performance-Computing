@@ -90,7 +90,7 @@ int main() {
 
         avg_time = elapsed_time / static_cast<long double>(ntrials);
 
-        long double dgemv_flops = (2.L * n) / avg_time;
+        long double dgemv_flops = (2.L * n * n) / avg_time;
         long double dgemv_mflops = dgemv_flops / 1e6;
 
         elapsed_time = 0.L;
@@ -114,7 +114,7 @@ int main() {
 
         avg_time = elapsed_time / static_cast<long double>(ntrials);
 
-        long double dgemm_flops = (2.L * n) / avg_time;
+        long double dgemm_flops = (2.L * n * n * n) / avg_time;
         long double dgemm_mflops = dgemm_flops / 1e6;
 
         elapsed_time = 0.L;
