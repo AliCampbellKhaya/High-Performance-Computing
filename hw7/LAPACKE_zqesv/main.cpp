@@ -9,8 +9,6 @@
 #include <cblas.h>
 #include <lapacke.h>
 
-#include "LAPACKE_zgesv.hpp"
-
 int main() {
 
     for (int n = 16; n <= 8192; n++) {
