@@ -56,19 +56,19 @@ int main() {
         std::memcpy(a2, a, sizeof(std::complex<double>) * ma * na);
         std::memcpy(b2, b, sizeof(std::complex<double>) * ma);
 
-        lapack_int zgesv = LAPACKE_zgesv(LAPACK_COL_MAJOR, n, 1, (lapack_complex_double*)a, n, ipiv.data(), (lapack_complex_double*)b, n);
+        lapack_int zgesv = LAPACKE_zgesv(LAPACK_COL_MAJOR, n, 1, reinterpret_cast<lapack_complex_double*>(a), n, ipiv.data(), reinterpret_cast<lapack_complex_double*>(b), n);
 
         std::memcpy(z, b, sizeof(std::complex<double>) * n);
 
-        double norm_A_inf = LAPACKE_zlange(LAPACK_COL_MAJOR, 'I', n, n, (lapack_complex_double*)a2, n);
-        double norm_z_2 = cblas_dznrm2(n, (void*)z, 1);
+        double norm_A_inf = LAPACKE_zlange(LAPACK_COL_MAJOR, 'I', n, n, reinterpret_cast<lapack_complex_double*>(a2), n);
+        double norm_z_2 = cblas_dznrm2(n, reinterpret_cast<double*>(z), 1);
 
         std::complex<double> alpha(-1.0, 0.0);
         std::complex<double> beta(1.0, 0.0);
 
-        cblas_zgemv(CblasColMajor, CblasNoTrans, n, n, (void*)&alpha, (void*)a2, n, (void*)z, 1, (void*)&beta, (void*)b2, 1);
+        cblas_zgemv(CblasColMajor, CblasNoTrans, n, n, reinterpret_cast<void*>(&alpha), reinterpret_cast<void*>(a2), n, reinterpret_cast<void*>(z), 1, reinterpret_cast<void*>(&beta), reinterpret_cast<void*>(b2), 1);
 
-        double norm_residual_2 = cblas_dznrm2(n, (void*)b2, 1);
+        double norm_residual_2 = cblas_dznrm2(n, reinterpret_cast<double*>(b2), 1);
         double log_residual = std::log10(norm_residual_2);
 
         double norm_error = norm_residual_2 / (norm_A_inf * norm_z_2 * machine_eps);

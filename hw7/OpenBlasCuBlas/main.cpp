@@ -12,7 +12,7 @@
 int main() {
     auto cpu_start = std::chrono::high_resolution_clock::now();
     auto cpu_stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(cpu_stop - cpu_start);
     long double elapsed_time = 0.L;
     long double avg_time;
     const int ntrials = 5;
@@ -34,9 +34,11 @@ int main() {
     }
 
     for (int n = 2; n <= 16384; n *= 2) {
-        std::vector<double> A(n * n); 
-        std::vector<double> B(n * n); 
-        std::vector<double> C(n * n);
+        size_t matrix_size = static_cast<size_t>(n) * n;
+
+        std::vector<double> A(matrix_size); 
+        std::vector<double> B(matrix_size); 
+        std::vector<double> C(matrix_size);
 
         for (int i = 0; i < n * n; i++) {
             A[i] = dist(gen);
@@ -50,7 +52,7 @@ int main() {
             cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, alpha, A.data(), n, B.data(), n, beta, C.data(), n);
 
             cpu_stop = std::chrono::high_resolution_clock::now();
-            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+            duration = std::chrono::duration_cast<std::chrono::nanoseconds>(cpu_stop - cpu_start);
             elapsed_time += (duration.count() * 1.e-9);
         }
 
@@ -68,13 +70,13 @@ int main() {
 
         double *d_A, *d_B, *d_C;
         
-        cudaMalloc((void**)&d_A, n * n * sizeof(double));
-        cudaMalloc((void**)&d_B, n * n * sizeof(double));
-        cudaMalloc((void**)&d_C, n * n * sizeof(double));
+        cudaMalloc((void**)&d_A, matrix_size * sizeof(double));
+        cudaMalloc((void**)&d_B, matrix_size * sizeof(double));
+        cudaMalloc((void**)&d_C, matrix_size * sizeof(double));
 
-        cudaMemcpy(d_A, A.data(), n * n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(d_B, B.data(), n * n * sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(d_C, C.data(), n * n * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_A, A.data(), matrix_size * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_B, B.data(), matrix_size * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMemcpy(d_C, C.data(), matrix_size * sizeof(double), cudaMemcpyHostToDevice);
 
         cublasHandle_t handle;
         cublasCreate(&handle);

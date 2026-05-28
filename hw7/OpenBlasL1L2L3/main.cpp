@@ -53,7 +53,7 @@ int main() {
         }
 
         // DAXPY
-
+        elapsed_time = 0.L;
         for (int t = 0; t < ntrials; t++) {
             start = std::chrono::high_resolution_clock::now();
 
@@ -69,15 +69,13 @@ int main() {
         long double daxpy_flops = (2.L * n) / avg_time;
         long double daxpy_mflops = daxpy_flops / 1e6;
 
-        elapsed_time = 0.L;
-
         std::cout << "Daxpy n: " << n << ", MFlops: " << daxpy_mflops << std::endl;
         if (daxpyOut.is_open()) {
             daxpyOut << n << "," << daxpy_mflops << "\n";
         }
 
         // DGEMV
-
+        elapsed_time = 0.L;
         for (int t = 0; t < ntrials; t++) {
             start = std::chrono::high_resolution_clock::now();
 
@@ -93,15 +91,13 @@ int main() {
         long double dgemv_flops = (2.L * n * n) / avg_time;
         long double dgemv_mflops = dgemv_flops / 1e6;
 
-        elapsed_time = 0.L;
-
         std::cout << "Dgemv n: " << n << ", MFlops: " << dgemv_mflops << std::endl;
         if (dgemvOut.is_open()) {
             dgemvOut << n << "," << dgemv_mflops << "\n";
         }
 
         // DGEMM
-
+        elapsed_time = 0.L;
         for (int t = 0; t < ntrials; t++) {
             start = std::chrono::high_resolution_clock::now();
 
