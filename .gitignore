@@ -8,3 +8,6 @@
 *.bin
 .vscode/*
 *.tar
+*.png
+*.png-gs
+*.krazeb
