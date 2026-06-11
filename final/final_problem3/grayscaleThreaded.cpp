@@ -11,17 +11,9 @@ void grayscaleHelper(png_bytep* image, int width, int start_height, int end_heig
         png_bytep row = image[i];
 
         for (int j = 0; j < width; j++) {
-            int offset = j * channels;
-
-            png_byte r = row[offset];
-            png_byte g = row[offset + 1];
-            png_byte b = row[offset + 2];
-
-            png_byte gray_image = static_cast<png_byte>(0.2126f * r + 0.7152f * g + 0.0722f * b);
-
-            row[offset] = gray_image;
-            row[offset + 1] = gray_image;
-            row[offset + 2] = gray_image;
+            png_bytep px = &(row[j * channels]);
+            uint8_t gray = static_cast<uint8_t>(0.3 * px[0] + 0.59 * px[1] + 0.11 * px[2]);
+            px[0] = px[1] = px[2] = gray;
         }
     }
 }
