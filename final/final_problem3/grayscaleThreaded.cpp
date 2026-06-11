@@ -17,7 +17,7 @@ void grayscaleHelper(png_bytep* image, int width, int start_height, int end_heig
             png_byte g = row[offset + 1];
             png_byte b = row[offset + 2];
 
-            png_byte gray_image = static_cast<png_byte>(0.2126f * r + 0.7152f * g + 0.0722f + b);
+            png_byte gray_image = static_cast<png_byte>(0.2126f * r + 0.7152f * g + 0.0722f * b);
 
             row[offset] = gray_image;
             row[offset + 1] = gray_image;
